@@ -1,5 +1,6 @@
 @page "/visitor/employees"
 
+@using CleanArchitecture.Blazor.Application.Features.Employees.Caching;
 @using CleanArchitecture.Blazor.Application.Features.KeyValues.DTOs
 @using CleanArchitecture.Blazor.Application.Features.KeyValues.Queries.ByName
 @using CleanArchitecture.Blazor.Application.Features.Employees.Commands.Delete
@@ -100,7 +101,7 @@
                         }
                     </MudHidden>
                     <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
-                        <MudMenu AnchorOrigin="Origin.BottomLeft" StartIcon="@Icons.Filled.KeyboardCommandKey" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="@L["Action"]" Color="Color.Primary" Variant="Variant.Filled">
+                        <MudMenu AnchorOrigin="Origin.BottomLeft" StartIcon="@Icons.Material.Filled.KeyboardCommandKey" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" Label="@L["Action"]" Color="Color.Primary" Variant="Variant.Filled">
                             <MudMenuItem Disabled="@_loading" OnClick="@(()=>OnRefresh())">@L["Refresh"]</MudMenuItem>
                             @if (_canCreate)
                             {
@@ -148,7 +149,7 @@
                     {
                         <MudMenu Label="@L["Actions"]" Variant="Variant.Filled" DisableElevation="true" Size="Size.Small"
                              Dense="true"
-                             EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Info">
+                             EndIcon="@Icons.Material.Filled.KeyboardArrowDown" IconColor="Color.Info">
                             @if (_canEdit)
                             {
                                 <MudMenuItem OnClick="@(()=>OnEdit(context))">@L["Edit"]</MudMenuItem>
@@ -278,6 +279,7 @@
     {
         _selectedItems = new();
         _searchString = string.Empty;
+        EmployeeCacheKey.Refresh();
         await _table.ReloadServerData();
     }
     private async Task OnCreate()
